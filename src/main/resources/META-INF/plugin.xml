@@ -39,6 +39,11 @@
                 text="Open Repo Pull Requests">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
+        <action id="org.robmux.quickopen.OpenFuryAction"
+                class="org.robmux.quickopen.OpenFuryAction"
+                text="Open Fury Repo">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
 
 </idea-plugin>
