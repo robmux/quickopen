@@ -1,4 +1,4 @@
-package org.robmux.quickopen;
+package com.robmux.quickopen;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -7,13 +7,13 @@ import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.diagnostic.Logger;
 
-public class OpenRepoPRAction extends AnAction {
+public class OpenRepoAction extends AnAction {
 
-    private static final Logger LOG = Logger.getInstance(OpenRepoPRAction.class);
+    private static final Logger LOG = Logger.getInstance(OpenRepoAction.class);
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        LOG.info("OpenRepoPRAction triggered");
+        LOG.info("OpenRepoAction triggered");
 
         Project project = e.getProject();
         if (project == null) {
@@ -27,12 +27,13 @@ public class OpenRepoPRAction extends AnAction {
             return;
         }
 
+        LOG.info("go.mod file: " + goModFile.getPath());
+
         String moduleLine = RepoUtil.findModuleLine(goModFile);
         if (moduleLine != null) {
             String moduleUrl = moduleLine.replace("module ", "").trim();
-            String pullRequestsUrl = moduleUrl + "/pulls";
-            LOG.info("Opening pull requests URL: " + pullRequestsUrl);
-            RepoUtil.openInBrowser(pullRequestsUrl);
+            LOG.info("Opening repository URL: " + moduleUrl);
+            RepoUtil.openInBrowser(moduleUrl);
         } else {
             LOG.warn("Module line not found in go.mod");
         }

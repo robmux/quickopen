@@ -1,4 +1,4 @@
-package org.robmux.quickopen;
+package com.robmux.quickopen;
 
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.diagnostic.Logger;

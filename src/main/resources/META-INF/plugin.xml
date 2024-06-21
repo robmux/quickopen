@@ -1,11 +1,13 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
-    <id>org.robmux.quickopen</id>
+    <id>com.robmux.quickopen</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>Quickopen</name>
+
+    <version>1.0.1</version>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="support@robmux.com" url="https://www.robmux.com">robmux</vendor>
@@ -14,8 +16,8 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    Open files or urls quickly<br>
-    <em>Open the github repo in browser, open a file in the default app</em>
+    Open files or urls quickly.<br>
+    <em>Open the GitHub repo in browser, open a file in the default app</em>
   ]]></description>
 
     <!-- Product and plugin compatibility requirements.
@@ -30,7 +32,7 @@
 
     <actions>
         <group
-                id="org.robmux.quickopen.QuickOpenGroup"
+                id="com.robmux.quickopen.QuickOpenGroup"
                 text="Quick Open"
                 popup="true"
                 icon="AllIcons.Actions.Lightning"
@@ -39,12 +41,12 @@
                     group-id="ToolsMenu"
                     anchor="last"/>
 
-            <action id="org.robmux.quickopen.OpenRepoAction"
-                    class="org.robmux.quickopen.OpenRepoAction"
+            <action id="com.robmux.quickopen.OpenRepoAction"
+                    class="com.robmux.quickopen.OpenRepoAction"
                     text="Open Repo">
             </action>
-            <action id="org.robmux.quickopen.OpenRepoPRAction"
-                    class="org.robmux.quickopen.OpenRepoPRAction"
+            <action id="com.robmux.quickopen.OpenRepoPRAction"
+                    class="com.robmux.quickopen.OpenRepoPRAction"
                     text="Open Repo Pull Requests">
             </action>
 
