@@ -29,16 +29,28 @@
     </extensions>
 
     <actions>
-        <action id="org.robmux.quickopen.OpenRepoAction"
-                class="org.robmux.quickopen.OpenRepoAction"
-                text="Open Repo">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
-        </action>
-        <action id="org.robmux.quickopen.OpenRepoPRAction"
-                class="org.robmux.quickopen.OpenRepoPRAction"
-                text="Open Repo Pull Requests">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
-        </action>
+        <group
+                id="org.robmux.quickopen.QuickOpenGroup"
+                text="Quick Open"
+                popup="true"
+                icon="AllIcons.Actions.Lightning"
+        >
+            <add-to-group
+                    group-id="ToolsMenu"
+                    anchor="last"/>
+
+            <action id="org.robmux.quickopen.OpenRepoAction"
+                    class="org.robmux.quickopen.OpenRepoAction"
+                    text="Open Repo">
+            </action>
+            <action id="org.robmux.quickopen.OpenRepoPRAction"
+                    class="org.robmux.quickopen.OpenRepoPRAction"
+                    text="Open Repo Pull Requests">
+            </action>
+
+        </group>
+
+
     </actions>
 
 </idea-plugin>
