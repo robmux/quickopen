@@ -49,6 +49,10 @@
                     class="com.robmux.quickopen.OpenRepoPRAction"
                     text="Open Repo Pull Requests">
             </action>
+            <action id="org.robmux.quickopen.OpenFuryAction"
+                    class="com.robmux.quickopen.OpenFuryAction"
+                    text="Open Fury Repo">
+            </action>
 
         </group>
 
