@@ -4,8 +4,8 @@ plugins {
     id("org.jetbrains.intellij") version "1.17.2"
 }
 
-group = "org.robmux"
-version = "1.0-SNAPSHOT"
+group = "com.robmux"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
