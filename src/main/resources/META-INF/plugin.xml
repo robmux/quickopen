@@ -52,7 +52,6 @@
             <action id="org.robmux.quickopen.OpenFuryAction"
                     class="com.robmux.quickopen.OpenFuryAction"
                     text="Open Fury Repo">
-                <add-to-group group-id="ToolsMenu" anchor="last"/>
             </action>
 
         </group>
