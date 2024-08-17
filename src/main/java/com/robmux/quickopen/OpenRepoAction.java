@@ -6,12 +6,13 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.diagnostic.Logger;
 
-import com.robmux.quickopen.config.ProjectRepoUtil;
-import com.robmux.quickopen.config.ProjectType;
+import com.robmux.quickopen.config.*;
 import org.jetbrains.annotations.NotNull;
 
-import com.robmux.quickopen.config.ConfigUtil;
-import com.robmux.quickopen.config.QuickOpenConfig;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.robmux.quickopen.config.ProjectType.GO;
 
 public class OpenRepoAction extends AnAction {
 
@@ -41,7 +42,14 @@ public class OpenRepoAction extends AnAction {
     }
 
     private void openGolangRepo(Project project) {
-        VirtualFile goModFile = project.getBaseDir().findChild("go.mod");
+        OpenerConfig openerConfig = config.getOpenerForType(GO.toString());
+        if (openerConfig == null) {
+            openerConfig = getGolangRepoConfig();
+            openerConfig.setActions(getDefaultActionConfigs(openerConfig));
+        }
+
+        // TODO: Refactor to create dynamic actions and get the correct index
+        VirtualFile goModFile = project.getBaseDir().findChild(openerConfig.getActions().get(0).getFile());
         if (goModFile == null) {
             log.warn("go.mod file not found");
             return;
@@ -52,12 +60,39 @@ public class OpenRepoAction extends AnAction {
         String moduleLine = RepoUtil.findModuleLine(goModFile);
         if (moduleLine != null) {
             String module = moduleLine.replace("module ", "").trim();
-            String repoUrl = config.getRepoUrlTemplate().replace("{repo}", module);
+            String repoUrl = openerConfig.getActions().get(0).getUrlTemplate().replace("{repo}", module);
             log.info("Opening repository URL: " + repoUrl);
             RepoUtil.openInBrowser(repoUrl);
         } else {
             log.warn("Module line not found in go.mod");
         }
     }
+
+    public static OpenerConfig getGolangRepoConfig() {
+        OpenerConfig openerConfig = new OpenerConfig();
+        openerConfig.setBehavior("GOLANG_DEFAULT");
+        openerConfig.setProgram("BROWSER");
+        return openerConfig;
+    }
+
+    public static List<ActionConfig> getDefaultActionConfigs(OpenerConfig openerConfig) {
+        ActionConfig repoAction = new ActionConfig();
+        repoAction.setFile("go.mod");
+        repoAction.setKind("DIRECT");
+        repoAction.setName("Open "+openerConfig.getBehavior() + " repo");
+        repoAction.setUrlTemplate("https://{repo}");
+
+        ActionConfig repoPRsAction = new ActionConfig();
+        repoPRsAction.setFile("go.mod");
+        repoPRsAction.setKind("DIRECT");
+        repoPRsAction.setName("Open "+openerConfig.getBehavior() + " repo prs");
+        repoPRsAction.setUrlTemplate("https://{repo}/pulls");
+
+        List<ActionConfig> defaultActions = new ArrayList<>();
+        defaultActions.add(repoAction);
+        defaultActions.add(repoPRsAction);
+        return defaultActions;
+    }
+
 
 }

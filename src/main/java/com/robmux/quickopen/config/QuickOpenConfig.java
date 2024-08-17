@@ -1,22 +1,50 @@
 package com.robmux.quickopen.config;
 
+import java.util.List;
+
 public class QuickOpenConfig {
-    private String repoUrlTemplate = "https://{repo}/";
-    private String prUrlTemplate = "https://{repo}/pulls";
+    private String defaultRepoUrlTemplate = "https://{repo}";
+    private String defaultPrUrlTemplate = "https://{repo}/pulls";
+    private List<OpenerConfig> openers;
 
-    public String getRepoUrlTemplate() {
-        return repoUrlTemplate;
+    // Getters and Setters
+    public String getDefaultRepoUrlTemplate() {
+        return defaultRepoUrlTemplate;
     }
 
-    public void setRepoUrlTemplate(String repoUrlTemplate) {
-        this.repoUrlTemplate = repoUrlTemplate;
+    public void setDefaultRepoUrlTemplate(String defaultRepoUrlTemplate) {
+        this.defaultRepoUrlTemplate = defaultRepoUrlTemplate;
     }
 
-    public String getPrUrlTemplate() {
-        return prUrlTemplate;
+    public String getDefaultPrUrlTemplate() {
+        return defaultPrUrlTemplate;
     }
 
-    public void setPrUrlTemplate(String prUrlTemplate) {
-        this.prUrlTemplate = prUrlTemplate;
+    public void setDefaultPrUrlTemplate(String defaultPrUrlTemplate) {
+        this.defaultPrUrlTemplate = defaultPrUrlTemplate;
+    }
+
+    public List<OpenerConfig> getOpeners() {
+        return openers;
+    }
+
+    public void setOpeners(List<OpenerConfig> openers) {
+        this.openers = openers;
+    }
+
+    public OpenerConfig getOpenerForType(String name) {
+        if (openers == null || openers.isEmpty()) {
+            return null;
+        }
+
+        OpenerConfig opener = null;
+        for (OpenerConfig openerConfig : this.openers) {
+            if (openerConfig.getBehavior().equals(name)) {
+                opener = openerConfig;
+                break;
+            }
+        }
+
+        return opener;
     }
 }

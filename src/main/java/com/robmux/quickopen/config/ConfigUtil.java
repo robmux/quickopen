@@ -16,7 +16,8 @@ public class ConfigUtil {
 
         if (configFile.exists()) {
             try (FileReader reader = new FileReader(configFile)) {
-                return new Gson().fromJson(reader, QuickOpenConfig.class);
+                QuickOpenConfig config =  new Gson().fromJson(reader, QuickOpenConfig.class);
+                return config;
             } catch (Exception e) {
                 log.error("Error reading configuration file", e);
                 return new QuickOpenConfig(); // Fallback to default config

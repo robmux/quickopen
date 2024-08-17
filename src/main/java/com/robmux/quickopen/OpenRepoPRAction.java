@@ -4,12 +4,13 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.robmux.quickopen.config.ConfigUtil;
-import com.robmux.quickopen.config.ProjectRepoUtil;
-import com.robmux.quickopen.config.ProjectType;
-import com.robmux.quickopen.config.QuickOpenConfig;
+import com.robmux.quickopen.config.*;
 import org.jetbrains.annotations.NotNull;
 import com.intellij.openapi.diagnostic.Logger;
+
+import static com.robmux.quickopen.OpenRepoAction.getDefaultActionConfigs;
+import static com.robmux.quickopen.OpenRepoAction.getGolangRepoConfig;
+import static com.robmux.quickopen.config.ProjectType.GO;
 
 public class OpenRepoPRAction extends AnAction {
 
@@ -41,7 +42,15 @@ public class OpenRepoPRAction extends AnAction {
     }
 
     private void openGolangRepoPRs(Project project) {
-        VirtualFile goModFile = project.getBaseDir().findChild("go.mod");
+        OpenerConfig openerConfig = config.getOpenerForType(GO.toString());
+        if (openerConfig == null) {
+            openerConfig = getGolangRepoConfig();
+            openerConfig.setActions(getDefaultActionConfigs(openerConfig));
+        }
+
+
+        // TODO: Refactor to create dynamic actions and get the correct index
+        VirtualFile goModFile = project.getBaseDir().findChild(openerConfig.getActions().get(1).getFile());
         if (goModFile == null) {
             log.warn("go.mod file not found");
             return;
@@ -50,7 +59,7 @@ public class OpenRepoPRAction extends AnAction {
         String moduleLine = RepoUtil.findModuleLine(goModFile);
         if (moduleLine != null) {
             String moduleUrl = moduleLine.replace("module ", "").trim();
-            String pullRequestsUrl = config.getPrUrlTemplate().replace("{repo}", moduleUrl);
+            String pullRequestsUrl = openerConfig.getActions().get(1).getUrlTemplate().replace("{repo}", moduleUrl);
             log.info("Opening pull requests URL: " + pullRequestsUrl);
             RepoUtil.openInBrowser(pullRequestsUrl);
         } else {
