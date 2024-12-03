@@ -5,6 +5,7 @@ public class ActionConfig {
     private String name;
     private String file;
     private String find;
+
     private String urlTemplate;
 
     // Getters and Setters

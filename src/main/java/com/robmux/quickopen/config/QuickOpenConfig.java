@@ -3,8 +3,8 @@ package com.robmux.quickopen.config;
 import java.util.List;
 
 public class QuickOpenConfig {
-    private String defaultRepoUrlTemplate = "https://{repo}";
-    private String defaultPrUrlTemplate = "https://{repo}/pulls";
+    private String defaultRepoUrlTemplate = "https://{source}";
+    private String defaultPrUrlTemplate = "https://{source}/pulls";
     private List<OpenerConfig> openers;
 
     // Getters and Setters

@@ -9,16 +9,16 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 public class ProjectRepoUtil {
     private static final Logger log = Logger.getInstance(ProjectRepoUtil.class);
-    private final QuickOpenConfig config;
 
     public ProjectRepoUtil() {
-        this.config = ConfigUtil.loadConfig();
     }
 
     public ProjectType GetProjectType(Project project) {
         return determineProjectType(project);
     }
 
+    // determineProjectType checks if there is a programming language specific file
+    // to know the project structure.
     private ProjectType determineProjectType(Project project) {
         VirtualFile[] files = ProjectRootManager.getInstance(project).getContentRoots();
 

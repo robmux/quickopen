@@ -59,7 +59,7 @@ public class OpenRepoPRAction extends AnAction {
         String moduleLine = RepoUtil.findModuleLine(goModFile);
         if (moduleLine != null) {
             String moduleUrl = moduleLine.replace("module ", "").trim();
-            String pullRequestsUrl = openerConfig.getActions().get(1).getUrlTemplate().replace("{repo}", moduleUrl);
+            String pullRequestsUrl = openerConfig.getActions().get(1).getUrlTemplate().replace("{source}", moduleUrl);
             log.info("Opening pull requests URL: " + pullRequestsUrl);
             RepoUtil.openInBrowser(pullRequestsUrl);
         } else {

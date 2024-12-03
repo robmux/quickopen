@@ -9,7 +9,7 @@ import java.io.FileReader;
 public class ConfigUtil {
     private static final Logger log = Logger.getInstance(ConfigUtil.class);
 
-    private static final String configFilePath = System.getProperty("user.home") + "/quickopen/.quickopen-config.json";
+    private static final String configFilePath = System.getProperty("user.home") + "/.quickopen/quickopen-config.json";
 
     public static QuickOpenConfig loadConfig() {
         File configFile = new File(configFilePath);
@@ -20,12 +20,46 @@ public class ConfigUtil {
                 return config;
             } catch (Exception e) {
                 log.error("Error reading configuration file", e);
-                return new QuickOpenConfig(); // Fallback to default config
+                return getDefaultConfig(); // Fallback to default config
             }
         }
 
         log.warn("Configuration file not found, using default configuration");
-        return new QuickOpenConfig(); // Fallback to default config
+        return getDefaultConfig(); // Fallback to default config
+    }
 
+    public static QuickOpenConfig getDefaultConfig() {
+        String confJSON = """
+{
+    "defaultRepoUrlTemplate": "https://github.com/{repo}",
+    "defaultPrUrlTemplate": "https://github.com/{repo}/pulls",
+    "openers": [
+        {
+            "behavior": "GO",
+            "program": "browser",
+            "actions": [
+                {
+                    "kind": "DIRECT",
+                    "name": "Open Repo",
+                    "file": "go.mod",
+                    "find": "module {source}",
+                    "urlTemplate": "https://{source}"
+                },
+                {
+                    "kind": "DIRECT",
+                    "name": "Open Repo PRs",
+                    "file": "go.mod",
+                    "find": "module {source}",
+                    "urlTemplate": "https://{source}/pulls"
+                }
+            ]
+        }
+    ]
+}
+
+                """;
+
+        QuickOpenConfig config = new Gson().fromJson(confJSON, QuickOpenConfig.class);
+        return config;
     }
 }

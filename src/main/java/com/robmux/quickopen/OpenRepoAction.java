@@ -36,7 +36,7 @@ public class OpenRepoAction extends AnAction {
                 openGolangRepo(project);
                 break;
            default:
-                log.warn("Unsupported project type");
+                log.warn("Unsupported project type "+projectType);
                 break;
         }
     }
@@ -49,7 +49,8 @@ public class OpenRepoAction extends AnAction {
         }
 
         // TODO: Refactor to create dynamic actions and get the correct index
-        VirtualFile goModFile = project.getBaseDir().findChild(openerConfig.getActions().get(0).getFile());
+        var file = openerConfig.getActions().get(0).getFile();
+        VirtualFile goModFile = project.getBaseDir().findChild(file);
         if (goModFile == null) {
             log.warn("go.mod file not found");
             return;
@@ -60,7 +61,8 @@ public class OpenRepoAction extends AnAction {
         String moduleLine = RepoUtil.findModuleLine(goModFile);
         if (moduleLine != null) {
             String module = moduleLine.replace("module ", "").trim();
-            String repoUrl = openerConfig.getActions().get(0).getUrlTemplate().replace("{repo}", module);
+            String templateURL = openerConfig.getActions().get(0).getUrlTemplate();
+            String repoUrl = templateURL.replace("{source}", module);
             log.info("Opening repository URL: " + repoUrl);
             RepoUtil.openInBrowser(repoUrl);
         } else {
@@ -80,13 +82,13 @@ public class OpenRepoAction extends AnAction {
         repoAction.setFile("go.mod");
         repoAction.setKind("DIRECT");
         repoAction.setName("Open "+openerConfig.getBehavior() + " repo");
-        repoAction.setUrlTemplate("https://{repo}");
+        repoAction.setUrlTemplate("https://{source}");
 
         ActionConfig repoPRsAction = new ActionConfig();
         repoPRsAction.setFile("go.mod");
         repoPRsAction.setKind("DIRECT");
         repoPRsAction.setName("Open "+openerConfig.getBehavior() + " repo prs");
-        repoPRsAction.setUrlTemplate("https://{repo}/pulls");
+        repoPRsAction.setUrlTemplate("https://{source}/pulls");
 
         List<ActionConfig> defaultActions = new ArrayList<>();
         defaultActions.add(repoAction);
