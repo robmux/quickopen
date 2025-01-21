@@ -7,7 +7,7 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>Quick Open</name>
 
-    <version>1.0.1</version>
+    <version>1.1.0</version>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="support@robmux.com" url="https://www.robmux.com">robmux</vendor>
@@ -36,20 +36,11 @@
                 text="Quick Open"
                 popup="true"
                 icon="AllIcons.Actions.Lightning"
+                class="com.robmux.quickopen.actions.QuickOpenActionGroup"
         >
             <add-to-group
                     group-id="ToolsMenu"
                     anchor="last"/>
-
-            <action id="com.robmux.quickopen.OpenRepoAction"
-                    class="com.robmux.quickopen.OpenRepoAction"
-                    text="Open Repo">
-            </action>
-            <action id="com.robmux.quickopen.OpenRepoPRAction"
-                    class="com.robmux.quickopen.OpenRepoPRAction"
-                    text="Open Repo Pull Requests">
-            </action>
-
         </group>
 
 

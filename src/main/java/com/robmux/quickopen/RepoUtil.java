@@ -20,7 +20,7 @@ public class RepoUtil {
             for (String line : Files.readAllLines(Paths.get(goModFile.getPath()))) {
                 if (line.startsWith("module ")) {
                     LOG.debug("Found module line: " + line);
-                    return line;
+                    return line.strip();
                 }
             }
         } catch (IOException ex) {
