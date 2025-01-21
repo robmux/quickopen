@@ -13,7 +13,7 @@ import java.util.List;
 import static com.robmux.quickopen.config.ProjectType.GO;
 
 public class ActionsManager {
-    private static final Logger log = Logger.getInstance(OpenRepoAction.class);
+    private static final Logger log = Logger.getInstance(ActionsManager.class);
     private final ProjectRepoUtil projectRepoUtil = new ProjectRepoUtil();
 
     public Project getProject(@NotNull AnActionEvent event) {
@@ -82,31 +82,4 @@ public class ActionsManager {
         String templateURL = config.getUrlTemplate();
         return templateURL.replace("{source}", onlySource);
     }
-
-    public static OpenerConfig getGolangRepoConfig() {
-        OpenerConfig openerConfig = new OpenerConfig();
-        openerConfig.setBehavior("GOLANG_DEFAULT");
-        openerConfig.setProgram("BROWSER");
-        return openerConfig;
-    }
-
-    public static List<ActionConfig> getDefaultActionConfigs(OpenerConfig openerConfig) {
-        ActionConfig repoAction = new ActionConfig();
-        repoAction.setFile("go.mod");
-        repoAction.setKind("DIRECT");
-        repoAction.setName("Open " + openerConfig.getBehavior() + " repo");
-        repoAction.setUrlTemplate("https://{source}");
-
-        ActionConfig repoPRsAction = new ActionConfig();
-        repoPRsAction.setFile("go.mod");
-        repoPRsAction.setKind("DIRECT");
-        repoPRsAction.setName("Open " + openerConfig.getBehavior() + " repo prs");
-        repoPRsAction.setUrlTemplate("https://{source}/pulls");
-
-        List<ActionConfig> defaultActions = new ArrayList<>();
-        defaultActions.add(repoAction);
-        defaultActions.add(repoPRsAction);
-        return defaultActions;
-    }
-
 }
